@@ -13,4 +13,30 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.3.0.M0'
+    compile group: 'org.eclipse.jetty', name: 'jetty-webapp', version: '9.3.0.M0'
+    compile group: 'org.eclipse.jetty', name: 'jetty-maven-plugin', version: '9.4.3.v20170317'
+
+    compile group: 'org.freemarker', name: 'freemarker', version: '2.3.20'
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Jar File Example',
+                'Implementation-Version': version,
+                'Main-Class': 'main.Main'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'main.Main'
+        )
+    }
 }

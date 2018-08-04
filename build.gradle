@@ -19,13 +19,27 @@ dependencies {
     compile group: 'org.eclipse.jetty', name: 'jetty-maven-plugin', version: '9.4.3.v20170317'
 
     compile group: 'org.freemarker', name: 'freemarker', version: '2.3.20'
+
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '3.1.0.RELEASE'
+
+//    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.17.Final'
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '4.3.11.Final'
+//    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.2.17.Final'
+    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '4.3.11.Final'
+
+    compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.44'
+
+    // https://mvnrepository.com/artifact/com.h2database/h2
+    testCompile group: 'com.h2database', name: 'h2', version: '1.4.197'
+
+
 }
 
 task fatJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'Gradle Jar File Example',
                 'Implementation-Version': version,
-                'Main-Class': 'main.Main'
+                'Main-Class': 'task3_authorization_db.main.Main'
     }
     baseName = project.name + '-all'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
@@ -36,7 +50,7 @@ jar {
     manifest {
         attributes(
                 'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-                'Main-Class': 'main.Main'
+                'Main-Class': 'task3_authorization_db.main.Main'
         )
     }
 }
